@@ -26,7 +26,7 @@ counter=0
             cd /data/data/com.termux/files/usr/share/pocky &> /dev/null
             git pull origin main &> /dev/null
             git stash &> /dev/null
-            mv -f xxh4.h /data/data/com.termux/files/usr/include &> /dev/null
+            mv -f xxh3.h /data/data/com.termux/files/usr/include &> /dev/null
             bash $scanning
             exit
         else
