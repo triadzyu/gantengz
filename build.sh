@@ -119,11 +119,24 @@ ctrl_c() {
     exit 1
 }
 
+display_header() {
+#clear
+  echo -e "${CYAN}╔════════════════════════════════════════════════╗${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          │ ⚡MAGELANG PHREAKER ⚡ │                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}╠════════════════════════════════════════════════╣${NC}"
+  echo -e "${CYAN}║${NC} ${MAGENTA}📅 Tanggal: $(date '+%A, %d %B %Y')${NC}          ${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC} ${MAGENTA}⏰ Waktu: $(date '+%H:%M:%S')${NC}                             ${CYAN}║${NC}"
+  echo -e "${CYAN}╚════════════════════════════════════════════════╝${NC}"
+}
+
 echo -e "\n\n${CLWhite} Sedang Menjalankan script.${CLYellow} Mohon Tunggu.."
 show_loading
+sleep 1
 echo -e "${CLWhite} Pastikan Koneksi Internet Lancar\n\n"
 show_loading
-
+sleep 2
 		if [ -z $(command -v curl) ];then
 		printf "${p}[${m}!${p}]${m}curl belum di install!!\n"
 		printf "${p}[${m}!${p}]${h}pkg install curl\n"
@@ -186,33 +199,8 @@ tmx=( "libwebp" "imagemagick" "libarchive" "libandroid-wordexp" "binutils" "core
     done
 }
 
-function kakkoii(){
-figlet -f small -t "      Yaddy Kakkoii" | lolcat
-echo -e "              TELEGRAM : t.me/Crystalllz | Crypter"
-echo -e "              ⚡MAGELANG ⚡PHREAKER ⚡| versi beta"
-echo ""
-echo "*****************************************************"
-echo "*            Not Open Source @Crystalllz            *"
-echo "*****************************************************"
-echo "*                 AUTO CREATE YAML                  *"
-echo "*                      Author                       *"
-echo "*                Mas Triadzz Ganteng                *"
-echo "* Telegram: t.me/Crystalllz | Github: Yaddy Kakkoii *"
-echo "*                       1337                        *"
-echo "*****************************************************"
-echo ""
-}
-display_header() {
-#clear
-  echo -e "${CYAN}╔════════════════════════════════════════════════╗${NC}"
-  echo -e "${CYAN}║${NC}${GREEN}          █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█                ${NC}${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}${GREEN}          │ ⚡MAGELANG PHREAKER ⚡ │                ${NC}${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}${GREEN}          █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█                ${NC}${CYAN}║${NC}"
-  echo -e "${CYAN}╠════════════════════════════════════════════════╣${NC}"
-  echo -e "${CYAN}║${NC} ${MAGENTA}📅 Tanggal: $(date '+%A, %d %B %Y')${NC}          ${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC} ${MAGENTA}⏰ Waktu: $(date '+%H:%M:%S')${NC}                             ${CYAN}║${NC}"
-  echo -e "${CYAN}╚════════════════════════════════════════════════╝${NC}"
-}
+
+
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
     clear
