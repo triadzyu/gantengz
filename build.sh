@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#bash -c "$(wget -qO- https://raw.githubusercontent.com/triadzyu/gantengz/master/install.sh)"
 
 CLBlack="\e[0;30m"
 CLRed="\e[0;31m"
@@ -126,7 +125,7 @@ display_header() {
 #clear
   echo -e "${CYAN}╔════════════════════════════════════════════════╗${NC}"
   echo -e "${CYAN}║${NC}${GREEN}          █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█                ${NC}${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}${GREEN}          │ ⚡MAGELANG PHREAKER ⚡ │                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          │ MAGELANG ⚡ PHREAKER │                ${NC}${CYAN}║${NC}"
   echo -e "${CYAN}║${NC}${GREEN}          █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█                ${NC}${CYAN}║${NC}"
   echo -e "${CYAN}╠════════════════════════════════════════════════╣${NC}"
   echo -e "${CYAN}║${NC} ${MAGENTA}📅 Tanggal: $(date '+%A, %d %B %Y')${NC}          ${CYAN}║${NC}"
@@ -256,4 +255,27 @@ else
     exit 1
 fi
 
+rm build.sh
 
+echo -e "
+Installing new version of config file /data/data/com.termux/files/usr/etc/ssh/sshd_config ...
+
+If you plan to use the 'ssh-agent'
+it is recommended to run it as a service.
+Run 'pkg i termux-services'
+to install the ('runit') service manager
+
+You can enable the ssh-agent service
+using 'sv-enable ssh-agent'
+You can also enable sshd to autostart
+using 'sv-enable sshd'
+"
+display_header
+#bash -c \"$(wget -qO- https://raw.githubusercontent.com/triadzyu/gantengz/master/install.sh)\"
+
+echo -e "
+Silakan ketik command berikut:
+
+bash -c \"\$(wget -qO- https://raw.githubusercontent.com/triadzyu/gantengz/master/install.sh)\"
+
+"
