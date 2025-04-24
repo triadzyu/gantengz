@@ -124,9 +124,9 @@ ctrl_c() {
 display_header() {
 #clear
   echo -e "${CYAN}╔════════════════════════════════════════════════╗${NC}"
-  echo -e "${CYAN}║${NC}${GREEN}          █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█                ${NC}${CYAN}║${NC}"
   echo -e "${CYAN}║${NC}${GREEN}          │ MAGELANG ⚡ PHREAKER │                ${NC}${CYAN}║${NC}"
-  echo -e "${CYAN}║${NC}${GREEN}          █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█                ${NC}${CYAN}║${NC}"
   echo -e "${CYAN}╠════════════════════════════════════════════════╣${NC}"
   echo -e "${CYAN}║${NC} ${MAGENTA}📅 Tanggal: $(date '+%A, %d %B %Y')${NC}          ${CYAN}║${NC}"
   echo -e "${CYAN}║${NC} ${MAGENTA}⏰ Waktu: $(date '+%H:%M:%S')${NC}                             ${CYAN}║${NC}"
@@ -202,11 +202,13 @@ tmx=( "libwebp" "imagemagick" "libarchive" "libandroid-wordexp" "binutils" "core
 }
 
 instal_nodejs_termux(){
+    folder_bin=$(which curl | sed 's/curl//g')
     echo "Menginstall Node_Modules"
     echo ""
     sleep 3
     pkg update && pkg upgrade -y
-    pkg install nodejs -y
+    #pkg install nodejs -y
+    apt install nodejs-lts -y
     node -v
     ln -s ${folder_bin}nodejs ${folder_bin}node
     npm install -g bash-obfuscate
@@ -224,20 +226,35 @@ function dpkg_query(){
         read -p 'Press enter to continue.'
         apt update && apt upgrade -y
         apt install shc
-    elif [ $(dpkg-query -W -f='${Status}' nodejs 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    else
+        printf "${p}[${m}!${p}]${h} shc terinstall ✓\n"
+    fi
+    #if [ $(dpkg-query -W -f='${Status}' nodejs 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+    if [ $(dpkg-query -W -f='${Status}' nodejs-lts 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
         echo belum terinstall nodejs, we will aquire them now. This may take a while.
         read -p 'Press enter to continue.'
+        npmversion(){
+        versinpm=$(npm -v)
+        printf "${p}[${m}!${p}]${h} npm node js terinstall ✓\n"
+        printf "${h} npm version: $versinpm ✓\n"
+        }
         if [[ ! -f ${termux_bin}npm ]]; then
             instal_nodejs_termux
+            npmversion
         else
-            printf "${p}[${m}!${p}]${h} node js terinstall ✓\n"
+            npmversion
         fi
+    else
+        versinode=$(node -v)
+        printf "${p}[${m}!${p}]${h} nodejs-lts terinstall ✓\n"
+        printf "${h} node version: $versinode ✓\n"
     fi
 }
 
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
     echo "hai user termux"
+    echo -e "\n\n⌛install depencies..."
     type -P tput 1>/dev/null
     [ "$?" -ne 0 ] && echo "Utillity 'tput' not found, installing ncurses-utils" && apt install ncurses-utils
     type -P npm 1>/dev/null
@@ -270,6 +287,7 @@ using 'sv-enable ssh-agent'
 You can also enable sshd to autostart
 using 'sv-enable sshd'
 "
+show_loading
 display_header
 #bash -c \"$(wget -qO- https://raw.githubusercontent.com/triadzyu/gantengz/master/install.sh)\"
 
