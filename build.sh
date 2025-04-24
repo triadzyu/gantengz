@@ -113,10 +113,18 @@ show_loading() {
 }
 
 trap ctrl_c INT
+#trap ctrl_d EXIT
+
+ctrl_d() {
+    clear
+    if [ -f build.sh ]; then rm -f build.sh; fi
+    echo -e "proses build telah selesai."
+    exit 0
+}
 
 ctrl_c() {
     clear
-    rm -f build.sh
+    if [ -f build.sh ]; then rm -f build.sh; fi
     echo -e "proses build telah dibatalkan."
     exit 1
 }
@@ -133,12 +141,19 @@ display_header() {
   echo -e "${CYAN}╚════════════════════════════════════════════════╝${NC}"
 }
 
+function fortermux(){
+termux_packages=( "libwebp" "imagemagick" "libarchive" "libandroid-wordexp" "binutils" "coreutils" "ncurses-utils" )
+    for paket in "${termux_packages[@]}"; do
+        apt install "$paket" -y
+    done
+}
+
 echo -e "\n\n${CLWhite} Sedang Menjalankan script.${CLYellow} Mohon Tunggu.."
-show_loading
-sleep 1
 echo -e "${CLWhite} Pastikan Koneksi Internet Lancar\n\n"
 show_loading
 sleep 2
+echo -e "\n\n⌛install depencies..."
+fortermux
 		if [ -z $(command -v curl) ];then
 		printf "${p}[${m}!${p}]${m}curl belum di install!!\n"
 		printf "${p}[${m}!${p}]${h}pkg install curl\n"
@@ -191,18 +206,13 @@ type -P lolcat 1>/dev/null
 
 # ============================================================
 
+folder_bin=$(which curl | sed 's/curl//g')
 termux_bin="/data/data/com.termux/files/usr/bin/"
 vps_bin="/usr/bin/"
 
-function fortermux(){
-tmx=( "libwebp" "imagemagick" "libarchive" "libandroid-wordexp" "binutils" "coreutils" "ncurses-utils" )
-    for paket in "${tmx[@]}"; do
-        apt install "$paket" -y
-    done
-}
+
 
 instal_nodejs_termux(){
-    folder_bin=$(which curl | sed 's/curl//g')
     echo "Menginstall Node_Modules"
     echo ""
     sleep 3
@@ -233,18 +243,14 @@ function dpkg_query(){
     if [ $(dpkg-query -W -f='${Status}' nodejs-lts 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
         echo belum terinstall nodejs, we will aquire them now. This may take a while.
         read -p 'Press enter to continue.'
-        npmversion(){
+        instal_nodejs_termux
+    else
+        if [[ ! -f ${termux_bin}npm ]]; then
+            instal_nodejs_termux
+        fi
         versinpm=$(npm -v)
         printf "${p}[${m}!${p}]${h} npm node js terinstall ✓\n"
         printf "${h} npm version: $versinpm ✓\n"
-        }
-        if [[ ! -f ${termux_bin}npm ]]; then
-            instal_nodejs_termux
-            npmversion
-        else
-            npmversion
-        fi
-    else
         versinode=$(node -v)
         printf "${p}[${m}!${p}]${h} nodejs-lts terinstall ✓\n"
         printf "${h} node version: $versinode ✓\n"
@@ -253,8 +259,6 @@ function dpkg_query(){
 
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
-    echo "hai user termux"
-    echo -e "\n\n⌛install depencies..."
     type -P tput 1>/dev/null
     [ "$?" -ne 0 ] && echo "Utillity 'tput' not found, installing ncurses-utils" && apt install ncurses-utils
     type -P npm 1>/dev/null
@@ -271,8 +275,6 @@ else
     echo "please use termux"
     exit 1
 fi
-
-rm build.sh
 
 echo -e "
 Installing new version of config file /data/data/com.termux/files/usr/etc/ssh/sshd_config ...
