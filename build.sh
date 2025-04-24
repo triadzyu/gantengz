@@ -26,6 +26,7 @@ BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 LIGHT='\033[0;37m'
+MAGENTA='\033[1;35m'
 
 tyblue='\e[1;36m'
 NC='\e[0m'
@@ -152,8 +153,11 @@ echo -e "\n\n${CLWhite} Sedang Menjalankan script.${CLYellow} Mohon Tunggu.."
 echo -e "${CLWhite} Pastikan Koneksi Internet Lancar\n\n"
 show_loading
 sleep 2
-echo -e "\n\n⌛install depencies..."
+
+echo -e "\n\n⌛please wait until finish, dont interupt process...${CYAN}"
 fortermux
+echo -e "[ ${GREEN}INFO${NC} ] ✔ Success, install dependencies 🔥🔥🔥"
+
 		if [ -z $(command -v curl) ];then
 		printf "${p}[${m}!${p}]${m}curl belum di install!!\n"
 		printf "${p}[${m}!${p}]${h}pkg install curl\n"
@@ -210,8 +214,6 @@ folder_bin=$(which curl | sed 's/curl//g')
 termux_bin="/data/data/com.termux/files/usr/bin/"
 vps_bin="/usr/bin/"
 
-
-
 instal_nodejs_termux(){
     echo "Menginstall Node_Modules"
     echo ""
@@ -265,12 +267,6 @@ if [[ "$folder_bin" = "$termux_bin" ]]; then
     [ "$?" -ne 0 ] && echo "Utillity 'npm' not found, installing npm nodejs" && instal_nodejs_termux
     dpkg_query
     download_packages_termux
-    display_header
-    sleep 2
-    show_loading
-    echo -e "\n\n⌛please wait until finish, dont interupt process..."
-    fortermux
-    echo -e "[ ${GREEN}INFO${NC} ] ✔ Success, install dependencies 🔥🔥🔥"
 else
     echo "please use termux"
     exit 1
