@@ -107,7 +107,7 @@ show_loading() {
     ((i++))
   done
   echo -e "${NC}"
-clear
+#clear
 }
 
 trap ctrl_c INT
@@ -199,12 +199,46 @@ tmx=( "libwebp" "imagemagick" "libarchive" "libandroid-wordexp" "binutils" "core
     done
 }
 
+instal_nodejs_termux(){
+    echo "Menginstall Node_Modules"
+    echo ""
+    sleep 3
+    pkg update && pkg upgrade -y
+    pkg install nodejs -y
+    node -v
+    ln -s ${folder_bin}nodejs ${folder_bin}node
+    npm install -g bash-obfuscate
+    npm -v
+    apt install binutils -y
+    apt install ncurses-utils -y
+    apt install yarn
+    yarn install
+    #npm start
+}
 
+function dpkg_query(){
+    if [ $(dpkg-query -W -f='${Status}' shc 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+        echo belum terinstall shc, we will aquire them now. This may take a while.
+        read -p 'Press enter to continue.'
+        apt update && apt upgrade -y
+        apt install shc
+    elif [ $(dpkg-query -W -f='${Status}' nodejs 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+        echo belum terinstall nodejs, we will aquire them now. This may take a while.
+        read -p 'Press enter to continue.'
+        if [[ ! -f ${termux_bin}npm ]]; then
+            instal_nodejs_termux
+        else
+            printf "${p}[${m}!${p}]${h} node js terinstall ✓\n"
+        fi
+    fi
+}
 
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
     clear
     echo "hai user termux"
+    type -P tput 1>/dev/null
+    [ "$?" -ne 0 ] && echo "Utillity 'tput' not found, installing ncurses-utils" && apt install ncurses-utils
     type -P npm 1>/dev/null
     [ "$?" -ne 0 ] && echo "Utillity 'npm' not found, installing npm nodejs" && instal_nodejs_termux
     dpkg_query
@@ -219,8 +253,5 @@ else
     echo "please use termux"
     exit 1
 fi
-
-
-
 
 
