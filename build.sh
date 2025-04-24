@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#bash -c "$(wget -qO- https://raw.githubusercontent.com/triadzyu/gantengz/master/install.sh)"
+
 CLBlack="\e[0;30m"
 CLRed="\e[0;31m"
 CLGreen="\e[0;32m"
@@ -42,8 +45,85 @@ b="\033[34;1m"
        ds="\033[30;1m"
         o="\033[0m"
 
+#############################################################
+############ TERMUX REQUIRED PACKAGE
+##########################################################
+
+pakettermux=(
+    "bash"
+    "libwebp"
+    "ffmpeg"
+    "imagemagick"
+    "libarchive"
+    "libandroid-wordexp"
+    "xxd"
+    "wget"
+    "nmap"
+    "zip"
+    "nmap"
+    "jq"
+    "bc"
+    "screen"
+    "vim"
+    "httping"
+    "gcc"
+    "sshpass"
+    "perl"
+    "git"
+    "patchelf"
+    "file"
+    "clang"
+)
+
+check_termux() {
+    local pakettermux="$1"
+    if ls /data/data/com.termux/files/usr/bin | grep -q "^$pakettermux"; then
+        echo "$pakettermux sudah terpasang.✓"
+    else
+        echo "$pakettermux belum terpasang. Menginstal $pakettermux..."
+        apt install ${pakettermux} -y
+        if [ $? -eq 0 ]; then
+            echo "$pakettermux berhasil diinstal."
+        else
+            echo "Gagal menginstal $pakettermux."
+        fi
+    fi
+}
+
+download_packages_termux() {
+    echo "Update dan instal paket"
+    for pkg in "${pakettermux[@]}"; do
+        check_termux "$pkg"
+    done
+    sleep 1
+}
+
+show_loading() {
+  echo -ne "${ORANGE}Memuat..."
+  local i=0
+  while [ $i -lt 5 ]; do
+    echo -n "."
+    sleep 0.1
+    ((i++))
+  done
+  echo -e "${NC}"
+clear
+}
+
+trap ctrl_c INT
+
+ctrl_c() {
+    clear
+    rm -f build.sh
+    echo -e "proses build telah dibatalkan."
+    exit 1
+}
+
 echo -e "\n\n${CLWhite} Sedang Menjalankan script.${CLYellow} Mohon Tunggu.."
+show_loading
 echo -e "${CLWhite} Pastikan Koneksi Internet Lancar\n\n"
+show_loading
+
 		if [ -z $(command -v curl) ];then
 		printf "${p}[${m}!${p}]${m}curl belum di install!!\n"
 		printf "${p}[${m}!${p}]${h}pkg install curl\n"
@@ -106,6 +186,33 @@ tmx=( "libwebp" "imagemagick" "libarchive" "libandroid-wordexp" "binutils" "core
     done
 }
 
+function kakkoii(){
+figlet -f small -t "      Yaddy Kakkoii" | lolcat
+echo -e "              TELEGRAM : t.me/Crystalllz | Crypter"
+echo -e "              ⚡MAGELANG ⚡PHREAKER ⚡| versi beta"
+echo ""
+echo "*****************************************************"
+echo "*            Not Open Source @Crystalllz            *"
+echo "*****************************************************"
+echo "*                 AUTO CREATE YAML                  *"
+echo "*                      Author                       *"
+echo "*                Mas Triadzz Ganteng                *"
+echo "* Telegram: t.me/Crystalllz | Github: Yaddy Kakkoii *"
+echo "*                       1337                        *"
+echo "*****************************************************"
+echo ""
+}
+display_header() {
+#clear
+  echo -e "${CYAN}╔════════════════════════════════════════════════╗${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          │ ⚡MAGELANG PHREAKER ⚡ │                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC}${GREEN}          █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█                ${NC}${CYAN}║${NC}"
+  echo -e "${CYAN}╠════════════════════════════════════════════════╣${NC}"
+  echo -e "${CYAN}║${NC} ${MAGENTA}📅 Tanggal: $(date '+%A, %d %B %Y')${NC}          ${CYAN}║${NC}"
+  echo -e "${CYAN}║${NC} ${MAGENTA}⏰ Waktu: $(date '+%H:%M:%S')${NC}                             ${CYAN}║${NC}"
+  echo -e "${CYAN}╚════════════════════════════════════════════════╝${NC}"
+}
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
     clear
@@ -114,13 +221,18 @@ if [[ "$folder_bin" = "$termux_bin" ]]; then
     [ "$?" -ne 0 ] && echo "Utillity 'npm' not found, installing npm nodejs" && instal_nodejs_termux
     dpkg_query
     download_packages_termux
+    display_header
     sleep 2
-    kakkoii
+    show_loading
     echo -e "\n\n⌛please wait until finish, dont interupt process..."
-    fun_bar 'fortermux'
+    fortermux
     echo -e "[ ${GREEN}INFO${NC} ] ✔ Success, install dependencies 🔥🔥🔥"
 else
-    echo "hai user vps"
+    echo "please use termux"
+    exit 1
 fi
+
+
+
 
 
