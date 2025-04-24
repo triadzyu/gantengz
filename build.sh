@@ -86,6 +86,9 @@ check_termux() {
             echo "$pakettermux berhasil diinstal."
         else
             echo "Gagal menginstal $pakettermux."
+            apt-get update -y
+            apt-get upgrade -y
+            apt install ${pakettermux} --fix-missing
         fi
     fi
 }
@@ -195,7 +198,7 @@ vps_bin="/usr/bin/"
 function fortermux(){
 tmx=( "libwebp" "imagemagick" "libarchive" "libandroid-wordexp" "binutils" "coreutils" "ncurses-utils" )
     for paket in "${tmx[@]}"; do
-        apt instal "$paket" -y
+        apt install "$paket" -y
     done
 }
 
@@ -235,7 +238,6 @@ function dpkg_query(){
 
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
-    clear
     echo "hai user termux"
     type -P tput 1>/dev/null
     [ "$?" -ne 0 ] && echo "Utillity 'tput' not found, installing ncurses-utils" && apt install ncurses-utils
