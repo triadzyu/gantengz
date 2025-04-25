@@ -91,7 +91,7 @@ check_termux() {
 }
 
 download_packages_termux() {
-    echo "Update dan instal paket"
+    #echo "Update dan instal paket"
     for pkg in "${pakettermux[@]}"; do
         check_termux "$pkg"
     done
