@@ -51,11 +51,7 @@ b="\033[34;1m"
 
 pakettermux=(
     "bash"
-    "libwebp"
     "ffmpeg"
-    "imagemagick"
-    "libarchive"
-    "libandroid-wordexp"
     "xxd"
     "wget"
     "nmap"
