@@ -155,6 +155,7 @@ echo -e "\n\n⌛please wait until finish, dont interupt process...${CYAN}"
 fortermux
 echo -e "[ ${GREEN}INFO${NC} ] ✔ Success, install dependencies 🔥🔥🔥"
 
+function basic_tools(){
 		if [ -z $(command -v curl) ];then
 		printf "${p}[${m}!${p}]${m}curl belum di install!!\n"
 		printf "${p}[${m}!${p}]${h}pkg install curl\n"
@@ -190,6 +191,8 @@ echo -e "[ ${GREEN}INFO${NC} ] ✔ Success, install dependencies 🔥🔥🔥"
 		else
 		printf "${p}[${m}!${p}]${h} nslookup terinstall ✓\n"
 		fi
+}
+
 # ============================================================
 if ! command -v which &> /dev/null; then apt install which -y; fi
 type -P wget 1>/dev/null
@@ -204,14 +207,13 @@ type -P gpg 1>/dev/null
 [ "$?" -ne 0 ] && echo "Utillity 'gpg' not found, installing gnupg" && apt install gnupg -y
 type -P lolcat 1>/dev/null
 [ "$?" -ne 0 ] && echo "Utillity 'lolcat' not found, installing" && apt install ruby -y && gem install lolcat
-
 # ============================================================
 
 folder_bin=$(which curl | sed 's/curl//g')
 termux_bin="/data/data/com.termux/files/usr/bin/"
 vps_bin="/usr/bin/"
 
-instal_nodejs_termux(){
+function instal_nodejs_termux(){
     echo "Menginstall Node_Modules"
     echo ""
     sleep 3
@@ -257,13 +259,14 @@ function dpkg_query(){
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
     dpkg_query
+    basic_tools
     download_packages_termux
 else
     echo "please use termux"
     exit 1
 fi
 
-echo -e "
+echo -e "${BLUE}
 Installing new version of config file /data/data/com.termux/files/usr/etc/ssh/sshd_config ...
 
 If you plan to use the 'ssh-agent'
