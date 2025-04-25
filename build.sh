@@ -74,7 +74,8 @@ pakettermux=(
 check_termux() {
     local pakettermux="$1"
     if ls /data/data/com.termux/files/usr/bin | grep -q "^$pakettermux"; then
-        echo "$pakettermux sudah terpasang.✓"
+        #echo "$pakettermux sudah terpasang.✓"
+        printf "${p}[${m}!${p}]${h} $pakettermux terinstall ✓\n"
     else
         echo "$pakettermux belum terpasang. Menginstal $pakettermux..."
         apt install ${pakettermux} -y
@@ -128,14 +129,14 @@ ctrl_c() {
 
 display_header() {
 #clear
-  echo -e "${CYAN}╔════════════════════════════════════════════════╗${NC}"
+  echo -e "${CYAN}╔══════════════════════════════════════════════════╗${NC}"
   echo -e "${CYAN}║${NC}${GREEN}          █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█                ${NC}${CYAN}║${NC}"
   echo -e "${CYAN}║${NC}${GREEN}          │ MAGELANG ⚡ PHREAKER │                ${NC}${CYAN}║${NC}"
   echo -e "${CYAN}║${NC}${GREEN}          █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█                ${NC}${CYAN}║${NC}"
-  echo -e "${CYAN}╠════════════════════════════════════════════════╣${NC}"
+  echo -e "${CYAN}╠══════════════════════════════════════════════════╣${NC}"
   echo -e "${CYAN}║${NC} ${MAGENTA}📅 Tanggal: $(date '+%A, %d %B %Y')${NC}          ${CYAN}║${NC}"
   echo -e "${CYAN}║${NC} ${MAGENTA}⏰ Waktu: $(date '+%H:%M:%S')${NC}                             ${CYAN}║${NC}"
-  echo -e "${CYAN}╚════════════════════════════════════════════════╝${NC}"
+  echo -e "${CYAN}╚══════════════════════════════════════════════════╝${NC}"
 }
 
 function fortermux(){
@@ -247,20 +248,14 @@ function dpkg_query(){
             instal_nodejs_termux
         fi
         versinpm=$(npm -v)
-        printf "${p}[${m}!${p}]${h} npm node js terinstall ✓\n"
-        printf "${h} npm version: $versinpm ✓\n"
+        printf "${p}[${m}!${p}]${h} npm node js terinstall , npm version: $versinpm ✓\n"
         versinode=$(node -v)
-        printf "${p}[${m}!${p}]${h} nodejs-lts terinstall ✓\n"
-        printf "${h} node version: $versinode ✓\n"
+        printf "${p}[${m}!${p}]${h} nodejs-lts terinstall , node version: $versinode ✓\n"
     fi
 }
 
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
-    type -P tput 1>/dev/null
-    [ "$?" -ne 0 ] && echo "Utillity 'tput' not found, installing ncurses-utils" && apt install ncurses-utils
-    type -P npm 1>/dev/null
-    [ "$?" -ne 0 ] && echo "Utillity 'npm' not found, installing npm nodejs" && instal_nodejs_termux
     dpkg_query
     download_packages_termux
 else
