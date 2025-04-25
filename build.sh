@@ -165,15 +165,6 @@ function basic_tools(){
 		printf "${p}[${m}!${p}]${h} curl terinstall ✓\n"
 		fi
 		
-		if [ -z $(command -v bash) ];then
-		printf "${p}[${m}!${p}]${m}bash belum di install!!\n"
-		printf "${p}[${m}!${p}]${h}pkg install bash\n"
-		printf "${p}[${m}!${p}]${m}Silahkan Install dulu\n"
-		exit
-		else
-		printf "${p}[${m}!${p}]${h} bash terinstall ✓\n"
-		fi
-		
 		if [ -z $(command -v nano) ];then
 		printf "${p}[${m}!${p}]${m}nano belum di install!!\n"
 		printf "${p}[${m}!${p}]${h}pkg install nano\n"
@@ -259,8 +250,8 @@ function dpkg_query(){
 folder_bin=$(which curl | sed 's/curl//g')
 if [[ "$folder_bin" = "$termux_bin" ]]; then
     dpkg_query
-    basic_tools
     download_packages_termux
+    basic_tools
 else
     echo "please use termux"
     exit 1
